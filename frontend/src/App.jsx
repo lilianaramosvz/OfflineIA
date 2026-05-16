@@ -1,9 +1,20 @@
-//src\App.jsx
+//frontend\src\App.jsx
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import InicioScreen from "./screens/inicioScreen";
+import NivelScreen from "./screens/Niveles/nivelScreen";
 import "./App.css";
 
 function App() {
-  return <InicioScreen />;
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Navigate to="/inicio" replace />} />
+        <Route path="/inicio" element={<InicioScreen />} />
+        <Route path="/niveles" element={<NivelScreen />} />
+        <Route path="*" element={<Navigate to="/inicio" replace />} />
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
 export default App;
