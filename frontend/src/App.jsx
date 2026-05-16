@@ -1,6 +1,5 @@
 //src\App.jsx
 import InicioScreen from "./screens/inicioScreen";
-
 import "./App.css";
 
 function App() {
