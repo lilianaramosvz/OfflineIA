@@ -7,7 +7,6 @@
   font-family: "Fredoka", sans-serif;
 }
 
-/* ── Card central ── */
 .card {
   background: var(--lumi-cream);
   border-radius: var(--radius);
@@ -21,7 +20,6 @@
   box-shadow: 0 8px 40px rgba(0, 0, 0, 0.08);
 }
 
-/* ── Ícono ── */
 .iconCircle {
   width: 80px;
   height: 80px;
@@ -32,7 +30,6 @@
   justify-content: center;
 }
 
-/* ── Título ── */
 .titulo {
   margin: 0;
   font-size: 26px;
@@ -48,7 +45,6 @@
   text-align: center;
 }
 
-/* ── Puntaje ── */
 .puntajeBox {
   width: 100%;
   background: var(--lumi-gray);
@@ -73,7 +69,6 @@
   font-weight: var(--font-weight-normal);
 }
 
-/* ── Estrellas ── */
 .estrellasRow {
   display: flex;
   gap: 10px;
@@ -92,7 +87,6 @@
   color: var(--lumi-gray);
 }
 
-/* ── Palabras para practicar ── */
 .practicarBox {
   width: 100%;
   background: var(--lumi-gray);
@@ -125,7 +119,13 @@
   border-radius: 999px;
 }
 
-/* ── Botones ── */
+.patronTag {
+  margin: 2px 0 0;
+  font-size: 12px;
+  color: var(--lumi-text);
+  font-style: italic;
+}
+
 .botonesRow {
   display: flex;
   gap: 12px;
@@ -172,8 +172,8 @@
   transform: scale(0.98);
 }
 
-/* ── Feedback de Ollama ── */
 .ollamaCard {
+  position: relative;
   width: 100%;
   background: var(--lumi-mint);
   border-radius: var(--radius);
@@ -181,6 +181,36 @@
   display: flex;
   flex-direction: column;
   gap: 6px;
+}
+
+.speakerBtn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  appearance: none;
+  border: none;
+  background: rgba(255, 255, 255, 0.55);
+  border-radius: 50%;
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--lumi-text-dark);
+  transition:
+    background 0.2s ease,
+    transform 0.15s ease;
+}
+
+.speakerBtn:hover {
+  background: rgba(255, 255, 255, 0.85);
+  transform: scale(1.08);
+}
+
+.speakerBtnActivo {
+  background: var(--lumi-sky);
+  color: var(--lumi-text-dark);
 }
 
 .ollamaLabel {

@@ -3,9 +3,13 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "../styles/screens/inicio.module.css";
 import FloatingBubbles from "../components/FloatingBubbles";
+import { useDyslexia } from "../hooks/useDyslexia";
+import { useDaltonismo } from "../hooks/useDaltonismo";
 
 const InicioScreen = () => {
   const navigate = useNavigate();
+  const [dyslexia, toggleDyslexia] = useDyslexia();
+  const [daltonismo, toggleDaltonismo] = useDaltonismo();
   const [ollamaStatus, setOllamaStatus] = useState("checking"); // 'checking' | 'connected' | 'offline'
 
   useEffect(() => {
@@ -45,10 +49,21 @@ const InicioScreen = () => {
             >
               Comenzar lectura
             </button>
+            <button
+              className={`${styles.dyslexiaButton} ${dyslexia ? styles.dyslexiaButtonActivo : ""}`}
+              onClick={toggleDyslexia}
+            >
+              {dyslexia ? "✓ Modo dislexia activo" : "Modo dislexia"}
+            </button>
+            <button
+              className={`${styles.dyslexiaButton} ${daltonismo !== "off" ? styles.daltonismoButtonActivo : ""}`}
+              onClick={toggleDaltonismo}
+            >
+              {daltonismo === "off" && "Modo daltónico"}
+              {daltonismo === "deuteranopia" && "✓ Modo daltónico activo"}
+            </button>
           </div>
         </div>
-
-        {/* Indicador de estado de Ollama */}
         <div className={styles.ollamaBadge}>
           <span
             className={styles.ollamaDot}

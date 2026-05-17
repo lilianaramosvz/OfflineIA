@@ -1,6 +1,8 @@
 //frontend\src\screens\Niveles\resultadoScreen.jsx
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { Volume2, VolumeX } from "lucide-react";
+import { analizarPalabrasDificiles } from "../../utils/embeddings";
 import styles from "../../styles/screens/Niveles/resultado.module.css";
 
 async function pedirFeedbackOllama({
@@ -8,19 +10,34 @@ async function pedirFeedbackOllama({
   correctas,
   total,
   palabrasPracticar,
+  patron,
 }) {
   const missed =
     palabrasPracticar.length > 0
       ? `Las palabras que le costaron trabajo fueron: ${palabrasPracticar.join(", ")}.`
       : "Leyó todas las palabras correctamente.";
 
+  const recomendacion =
+    palabrasPracticar.length > 0
+      ? `Recomiéndale que practique en voz alta estas palabras: ${palabrasPracticar.join(", ")}.`
+      : `Recomiéndale que siga leyendo cuentos para seguir mejorando.`;
+
+  const notaSemantica = patron
+    ? patron.relacionadas
+      ? `Nota adicional: el análisis semántico detectó que las palabras difíciles parecen pertenecer al mismo campo temático, por lo que puede ser útil practicar vocabulario de ese tema. `
+      : `Nota adicional: el análisis semántico detectó que las palabras difíciles son de temas variados, sin un patrón claro. `
+    : "";
+
   const prompt =
     `Eres Lumi, un tutor amigable para niños de primaria en México. ` +
     `Un niño acaba de terminar una sesión de lectura en voz alta. ` +
-    `Obtuvo ${puntaje}% de exactitud: leyó correctamente ${correctas} de ${total} palabras. ` +
+    `Obtuvo ${puntaje}% de exactitud: leyó bien ${correctas} de ${total} palabras. ` +
     `${missed} ` +
-    `Escribe un mensaje corto (máximo 2 oraciones) de retroalimentación positiva y alentadora, ` +
-    `usando un lenguaje sencillo y amigable para niños. No uses asteriscos ni listas.`;
+    `${notaSemantica}` +
+    `Escribe exactamente 2 oraciones en español: ` +
+    `la primera empieza con "¡Hola!" y da un mensaje de ánimo o felicitación según el puntaje; ` +
+    `la segunda da una recomendación concreta basada en esto: ${recomendacion} ` +
+    `Usa lenguaje muy sencillo para niños de primaria. No uses asteriscos ni listas.`;
 
   const res = await fetch("http://localhost:11434/api/generate", {
     method: "POST",
@@ -46,23 +63,70 @@ export default function ResultadoScreen() {
 
   const [ollamaMsg, setOllamaMsg] = useState(null);
   const [ollamaLoading, setOllamaLoading] = useState(true);
+  const [hablando, setHablando] = useState(false);
+  const [patron, setPatron] = useState(null);
+  const utteranceRef = useRef(null);
 
   useEffect(() => {
     let cancelled = false;
-    pedirFeedbackOllama({ puntaje, correctas, total, palabrasPracticar })
-      .then((msg) => {
-        if (!cancelled) setOllamaMsg(msg);
-      })
-      .catch(() => {
-        /* Ollama no disponible — no mostrar nada */
-      })
-      .finally(() => {
-        if (!cancelled) setOllamaLoading(false);
-      });
-    return () => {
-      cancelled = true;
-    };
+
+    (async () => {
+      // Analizar palabras difíciles con embeddings antes de llamar a Ollama
+      let patronData = null;
+      if (palabrasPracticar.length >= 2) {
+        try {
+          patronData = await analizarPalabrasDificiles(palabrasPracticar);
+          if (!cancelled && patronData) setPatron(patronData);
+        } catch {
+          // nomic-embed-text no disponible — continuar sin análisis
+        }
+      }
+
+      if (cancelled) return;
+
+      pedirFeedbackOllama({ puntaje, correctas, total, palabrasPracticar, patron: patronData })
+        .then((msg) => { if (!cancelled) setOllamaMsg(msg); })
+        .catch(() => {})
+        .finally(() => { if (!cancelled) setOllamaLoading(false); });
+    })();
+
+    return () => { cancelled = true; };
   }, []);
+
+  useEffect(() => {
+    return () => window.speechSynthesis.cancel();
+  }, []);
+
+  const handleSpeak = useCallback(() => {
+    if (!ollamaMsg) return;
+    if (hablando) {
+      window.speechSynthesis.cancel();
+      setHablando(false);
+      return;
+    }
+    const utterance = new SpeechSynthesisUtterance(ollamaMsg);
+    utterance.lang = "es-MX";
+    utterance.rate = 1.15;
+    utterance.pitch = 1.25;
+
+    const voices = window.speechSynthesis.getVoices();
+    const voz =
+      voices.find(
+        (v) =>
+          v.lang.startsWith("es") &&
+          /sabina|paulina|mónica|female/i.test(v.name),
+      ) ||
+      voices.find((v) => v.lang === "es-MX") ||
+      voices.find((v) => v.lang.startsWith("es")) ||
+      null;
+    if (voz) utterance.voice = voz;
+
+    utterance.onstart = () => setHablando(true);
+    utterance.onend = () => setHablando(false);
+    utterance.onerror = () => setHablando(false);
+    utteranceRef.current = utterance;
+    window.speechSynthesis.speak(utterance);
+  }, [ollamaMsg, hablando]);
 
   function getMensaje(p) {
     if (p >= 90)
@@ -144,6 +208,13 @@ export default function ResultadoScreen() {
                 </span>
               ))}
             </div>
+            {patron && (
+              <p className={styles.patronTag}>
+                {patron.relacionadas
+                  ? "◉ Estas palabras parecen ser del mismo tema"
+                  : "◎ Estas palabras son de temas distintos"}
+              </p>
+            )}
           </div>
         )}
 
@@ -157,6 +228,16 @@ export default function ResultadoScreen() {
         {!ollamaLoading && ollamaMsg && (
           <div className={styles.ollamaCard}>
             <p className={styles.ollamaLabel}>Lumi dice:</p>
+            <button
+              type="button"
+              className={`${styles.speakerBtn} ${hablando ? styles.speakerBtnActivo : ""}`}
+              onClick={handleSpeak}
+              aria-label={
+                hablando ? "Detener lectura" : "Escuchar recomendación"
+              }
+            >
+              {hablando ? <VolumeX size={18} /> : <Volume2 size={18} />}
+            </button>
             <p className={styles.ollamaMsg}>{ollamaMsg}</p>
           </div>
         )}
@@ -186,7 +267,7 @@ export default function ResultadoScreen() {
           </button>
           <button
             className={styles.btnVolver}
-            onClick={() => navigate("/niveles")}
+            onClick={() => navigate("/inicio")}
           >
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
               <path

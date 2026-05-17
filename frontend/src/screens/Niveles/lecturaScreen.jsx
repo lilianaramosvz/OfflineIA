@@ -1,6 +1,7 @@
 //frontend\src\screens\Niveles\lecturaScreen.jsx
 import { useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect, useMemo, useRef, useCallback } from "react";
+import { ArrowLeft } from "lucide-react";
 import styles from "../../styles/screens/Niveles/lectura.module.css";
 
 const allTexts = {
@@ -96,14 +97,11 @@ const LecturaScreen = () => {
     return { title, body, palabras: body.split(/\s+/).filter(Boolean) };
   }, [nivel]);
 
-  // Highlight words in sequence as the student reads (rough count from live transcript)
-  const palabrasLeidas = useMemo(() => {
-    if (!escuchando) return 0;
-    return Math.min(
-      liveTranscript.trim().split(/\s+/).filter(Boolean).length,
-      palabras.length,
-    );
-  }, [escuchando, liveTranscript, palabras.length]);
+  // Compara en tiempo real cuáles palabras del texto se han dicho realmente
+  const palabrasEstado = useMemo(() => {
+    if (!escuchando || !liveTranscript.trim()) return null;
+    return compareTexts(body, liveTranscript);
+  }, [escuchando, liveTranscript, body]);
 
   const startRecording = useCallback(() => {
     const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -174,6 +172,14 @@ const LecturaScreen = () => {
 
   return (
     <div className={styles.container}>
+      <button
+        type="button"
+        className={styles.backButton}
+        onClick={() => navigate("/niveles")}
+      >
+        <ArrowLeft size={18} strokeWidth={2} aria-hidden="true" />
+      </button>
+
       {/* Estado pill */}
       <div
         className={`${styles.estadoPill} ${escuchando ? styles.estadoPillActivo : ""}`}
@@ -193,7 +199,7 @@ const LecturaScreen = () => {
           {palabras.map((palabra, i) => (
             <span
               key={i}
-              className={`${styles.word} ${i < palabrasLeidas ? styles.wordCorrect : ""}`}
+              className={`${styles.word} ${palabrasEstado?.[i]?.status === "correct" ? styles.wordCorrect : ""}`}
             >
               {palabra}{" "}
             </span>

@@ -22,7 +22,7 @@
   overflow: hidden;
 }
 
-/* Decorative circles */
+
 .decorTopLeft,
 .decorBottomRight {
   position: absolute;
@@ -45,7 +45,7 @@
   background: var(--lumi-sky);
 }
 
-/* Back button */
+
 .backButton {
   position: absolute;
   top: 1.5rem;
@@ -80,7 +80,7 @@
   outline-offset: 3px;
 }
 
-/* Heading */
+
 .title {
   margin: 0 0 0.25rem;
   color: var(--lumi-text-dark);
@@ -95,7 +95,7 @@
   font-size: clamp(1rem, 2.5vw, 1.2rem);
 }
 
-/* Grid */
+
 .grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 18rem));
@@ -111,7 +111,7 @@
   }
 }
 
-/* Card */
+
 .card {
   appearance: none;
   border: none;
@@ -140,7 +140,7 @@
   outline-offset: 3px;
 }
 
-/* Icon bubble */
+
 .bubble {
   width: 5rem;
   height: 5rem;
@@ -162,7 +162,7 @@
   background: var(--lumi-butter);
 }
 
-/* Card text */
+
 .cardTitle {
   color: var(--lumi-text-dark);
   font-size: clamp(1.1rem, 2.5vw, 1.35rem);
