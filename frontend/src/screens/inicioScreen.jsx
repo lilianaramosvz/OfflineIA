@@ -1,6 +1,7 @@
 //frontend\src\screens\inicioScreen.jsx
 import { useNavigate } from "react-router-dom";
 import styles from "../styles/screens/inicio.module.css";
+import FloatingBubbles from "../components/FloatingBubbles";
 
 const InicioScreen = () => {
   const navigate = useNavigate();
@@ -12,10 +13,7 @@ const InicioScreen = () => {
   return (
     <div className={styles.shell}>
       <main className={styles.page}>
-        <div className={styles.decorTopLeft} />
-        <div className={styles.decorTopRight} />
-        <div className={styles.decorBottomLeft} />
-        <div className={styles.decorBottomRight} />
+        <FloatingBubbles count={4} />
 
         <div className={styles.content}>
           <div className={styles.logoBubble} aria-hidden="true">
