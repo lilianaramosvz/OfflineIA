@@ -12,9 +12,9 @@ const COLORS = [
 
 // Una burbuja por esquina, siempre lejos del contenido central
 const CORNERS = [
-  { topRange: [3, 18],  leftRange: [2, 16]  }, // arriba-izquierda
-  { topRange: [3, 18],  leftRange: [78, 91] }, // arriba-derecha
-  { topRange: [76, 90], leftRange: [2, 16]  }, // abajo-izquierda
+  { topRange: [3, 18], leftRange: [2, 16] }, // arriba-izquierda
+  { topRange: [3, 18], leftRange: [78, 91] }, // arriba-derecha
+  { topRange: [76, 90], leftRange: [2, 16] }, // abajo-izquierda
   { topRange: [76, 90], leftRange: [78, 91] }, // abajo-derecha
 ];
 
@@ -40,7 +40,14 @@ const FloatingBubbles = ({ count = 4 }) => {
         <div
           key={id}
           className={styles.bubble}
-          style={{ top, left, width: size, height: size, background: color, opacity }}
+          style={{
+            top,
+            left,
+            width: size,
+            height: size,
+            background: color,
+            opacity,
+          }}
           aria-hidden="true"
         />
       ))}

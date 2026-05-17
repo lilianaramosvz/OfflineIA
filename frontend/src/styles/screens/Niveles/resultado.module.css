@@ -85,7 +85,7 @@
 }
 
 .estrellaActiva {
-  color: #F5B942;
+  color: #f5b942;
 }
 
 .estrellaVacia {
@@ -147,7 +147,9 @@
   font-weight: var(--font-weight-medium);
   cursor: pointer;
   font-family: "Fredoka", sans-serif;
-  transition: transform 0.15s, opacity 0.15s;
+  transition:
+    transform 0.15s,
+    opacity 0.15s;
   color: var(--lumi-text-dark);
 }
 
@@ -168,4 +170,36 @@
 .btnReintentar:active,
 .btnVolver:active {
   transform: scale(0.98);
+}
+
+/* ── Feedback de Ollama ── */
+.ollamaCard {
+  width: 100%;
+  background: var(--lumi-mint);
+  border-radius: var(--radius);
+  padding: 16px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.ollamaLabel {
+  margin: 0;
+  font-size: 13px;
+  font-weight: var(--font-weight-medium);
+  color: var(--lumi-text);
+}
+
+.ollamaMsg {
+  margin: 0;
+  font-size: 15px;
+  color: var(--lumi-text-dark);
+  line-height: 1.5;
+}
+
+.ollamaPensando {
+  margin: 0;
+  font-size: 14px;
+  color: var(--lumi-turquoise);
+  font-style: italic;
 }
