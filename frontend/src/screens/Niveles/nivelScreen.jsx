@@ -51,20 +51,27 @@ const NivelScreen = () => {
         <p className={styles.subtitle}>¿Qué quieres leer hoy?</p>
 
         <div className={styles.grid}>
-          {LEVELS.map(({ key, label, description, Icon, bubbleClass, route }) => (
-            <button
-              key={key}
-              type="button"
-              className={styles.card}
-              onClick={() => navigate(route)}
-            >
-              <span className={`${styles.bubble} ${bubbleClass}`}>
-                <Icon size={32} strokeWidth={2} color="#fff" aria-hidden="true" />
-              </span>
-              <strong className={styles.cardTitle}>{label}</strong>
-              <p className={styles.cardDescription}>{description}</p>
-            </button>
-          ))}
+          {LEVELS.map(
+            ({ key, label, description, Icon, bubbleClass, route }) => (
+              <button
+                key={key}
+                type="button"
+                className={styles.card}
+                onClick={() => navigate(route)}
+              >
+                <span className={`${styles.bubble} ${bubbleClass}`}>
+                  <Icon
+                    size={32}
+                    strokeWidth={2}
+                    color="#fff"
+                    aria-hidden="true"
+                  />
+                </span>
+                <strong className={styles.cardTitle}>{label}</strong>
+                <p className={styles.cardDescription}>{description}</p>
+              </button>
+            ),
+          )}
         </div>
       </main>
     </div>

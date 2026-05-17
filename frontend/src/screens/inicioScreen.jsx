@@ -1,14 +1,28 @@
 //frontend\src\screens\inicioScreen.jsx
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "../styles/screens/inicio.module.css";
 import FloatingBubbles from "../components/FloatingBubbles";
 
 const InicioScreen = () => {
   const navigate = useNavigate();
+  const [ollamaStatus, setOllamaStatus] = useState("checking"); // 'checking' | 'connected' | 'offline'
 
-  const handleStartReading = () => {
-    navigate("/niveles");
-  };
+  useEffect(() => {
+    fetch("http://localhost:11434/api/tags", {
+      signal: AbortSignal.timeout(3000),
+    })
+      .then((r) =>
+        r.ok ? setOllamaStatus("connected") : setOllamaStatus("offline"),
+      )
+      .catch(() => setOllamaStatus("offline"));
+  }, []);
+
+  const statusDot = {
+    checking: { color: "#b0bec5", label: "Verificando IA..." },
+    connected: { color: "#66bb6a", label: "IA local activa" },
+    offline: { color: "#ffa726", label: "IA no disponible" },
+  }[ollamaStatus];
 
   return (
     <div className={styles.shell}>
@@ -19,20 +33,32 @@ const InicioScreen = () => {
           <div className={styles.logoBubble} aria-hidden="true">
             ✦
           </div>
-
           <h1 className={styles.title}>Lumi</h1>
           <p className={styles.subtitle}>
             ¡Bienvenido a Lumi, tu amigo de lectura!
           </p>
 
           <div className={styles.actions}>
-            <button className={styles.primaryButton} onClick={handleStartReading}>
+            <button
+              className={styles.primaryButton}
+              onClick={() => navigate("/niveles")}
+            >
               Comenzar lectura
             </button>
           </div>
+        </div>
+
+        {/* Indicador de estado de Ollama */}
+        <div className={styles.ollamaBadge}>
+          <span
+            className={styles.ollamaDot}
+            style={{ background: statusDot.color }}
+          />
+          <span>{statusDot.label}</span>
         </div>
       </main>
     </div>
   );
 };
+
 export default InicioScreen;
