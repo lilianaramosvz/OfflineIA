@@ -1,100 +1,177 @@
-/*frontend\src\styles\screens\Niveles\lectura.module.css*/
-
-.shell {
-  height: 100vh;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-}
-
-.page {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 2rem 1.5rem;
-  overflow-y: auto;
-}
-
-/* Back button — igual que nivelScreen */
-.backButton {
-  position: absolute;
-  top: 1.5rem;
-  left: 1.5rem;
-  appearance: none;
-  border: none;
-  border-radius: var(--radius);
-  background: var(--lumi-sky);
-  color: var(--lumi-text-dark);
-  display: flex;
-  align-items: center;
-  padding: 0.6rem 0.9rem;
-  box-shadow: 0 12px 24px rgba(168, 213, 226, 0.35);
-  cursor: pointer;
-  transition:
-    transform 0.2s ease,
-    box-shadow 0.2s ease,
-    filter 0.2s ease;
-}
-
-.backButton:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 18px 34px rgba(168, 213, 226, 0.42);
-  filter: saturate(1.05);
-}
-
-.backButton:focus-visible {
-  outline: 3px solid rgba(159, 216, 229, 0.7);
-  outline-offset: 3px;
-}
-
-/* Tarjeta de lectura */
-.card {
-  background: #fff;
-  border-radius: var(--radius);
-  box-shadow: 0 4px 20px rgba(74, 85, 104, 0.09);
-  padding: clamp(1.5rem, 4vw, 2.5rem) clamp(1.5rem, 5vw, 3rem);
-  max-width: 38rem;
-  width: 100%;
-  text-align: left;
+.container {
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  align-items: center;
+  padding: 28px 40px 48px;
+  font-family: "Fredoka", sans-serif;
+  gap: 20px;
 }
 
-/* Badge de nivel */
-.badge {
-  display: inline-block;
-  padding: 0.25rem 0.85rem;
-  border-radius: 99px;
-  font-size: 0.85rem;
+/* ── Estado pill ── */
+.estadoPill {
+  align-self: flex-start;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  border-radius: var(--radius);
+  background: var(--lumi-mint);
+  transition: background 0.3s;
+}
+
+.estadoPillActivo {
+  background: var(--lumi-sky);
+}
+
+.pulseDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--lumi-text);
+  opacity: 0.5;
+  transition: background 0.3s;
+}
+
+.pulseDotActivo {
+  opacity: 1;
+  animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1;    transform: scale(1); }
+  50%       { opacity: 0.4; transform: scale(0.85); }
+}
+
+.estadoText {
+  font-size: 15px;
   font-weight: var(--font-weight-medium);
   color: var(--lumi-text-dark);
-  align-self: flex-start;
 }
 
-.badge_basico     { background: var(--lumi-mint); }
-.badge_intermedio { background: var(--lumi-sky); }
-.badge_avanzado   { background: var(--lumi-butter); }
+/* ── Tarjeta de texto ── */
+.textCard {
+  width: 100%;
+  max-width: 860px;
+  background: var(--lumi-cream);
+  border-radius: var(--radius);
+  padding: 48px 52px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+  min-height: 200px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  align-items: flex-start;
+}
 
-/* Título */
-.title {
-  margin: 0;
-  color: var(--lumi-text-dark);
-  font-size: clamp(1.4rem, 3.5vw, 1.9rem);
+.textTitle {
+  margin: 0 0 16px 0;
+  font-size: 22px;
   font-weight: 700;
-  line-height: 1.2;
+  color: var(--lumi-text-dark);
+  font-family: "Fredoka", sans-serif;
+  letter-spacing: 0.5px;
 }
 
-/* Párrafos */
-.paragraph {
+.textContent {
   margin: 0;
+  font-size: 28px;
+  line-height: 2.4;
+  color: var(--lumi-text-dark);
+  font-family: "Fredoka", sans-serif;
+  text-align: justify;
+  letter-spacing: 0.03em;
+  width: 100%;
+}
+
+.word {
+  display: inline;
+  border-radius: 10px;
+  padding: 4px 2px;
+  transition: background 0.35s ease;
+}
+
+.wordCorrect {
+  background: var(--lumi-butter);
+  border-radius: 12px;
+  padding: 4px 8px;
+}
+
+.wordMissed {
+  background: var(--lumi-peach);
+  border-radius: 12px;
+  padding: 4px 8px;
+  text-decoration: underline wavy #e53935;
+}
+
+/* ── Transcripción live ── */
+.transcriptBox {
+  width: 100%;
+  max-width: 860px;
+  background: var(--lumi-gray);
+  border-radius: var(--radius);
+  padding: 18px 28px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+  min-height: 60px;
+  display: flex;
+  align-items: center;
+}
+
+.transcriptText {
+  margin: 0;
+  font-size: 16px;
   color: var(--lumi-text);
-  font-size: clamp(1rem, 2.5vw, 1.1rem);
-  line-height: 1.75;
-  font-weight: var(--font-weight-normal);
+  line-height: 1.6;
+  width: 100%;
+}
+
+.transcriptPlaceholder {
+  color: var(--lumi-turquoise);
+  font-style: italic;
+}
+
+/* ── Spacer ── */
+.spacer {
+  flex: 1;
+}
+
+/* ── Micrófono ── */
+.micArea {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.micBtn {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--lumi-sky);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.12);
+  transition: transform 0.2s, background 0.3s;
+}
+
+.micBtnActivo {
+  background: var(--lumi-turquoise);
+}
+
+.micBtn:hover {
+  transform: scale(1.05);
+}
+
+.micBtn:active {
+  transform: scale(0.97);
+}
+
+.micHint {
+  margin: 0;
+  font-size: 14px;
+  color: var(--lumi-text);
+  font-family: "Fredoka", sans-serif;
 }

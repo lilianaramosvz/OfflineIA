@@ -1,0 +1,171 @@
+.overlay {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  font-family: "Fredoka", sans-serif;
+}
+
+/* ── Card central ── */
+.card {
+  background: var(--lumi-cream);
+  border-radius: var(--radius);
+  padding: 40px 48px;
+  max-width: 520px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.08);
+}
+
+/* ── Ícono ── */
+.iconCircle {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: var(--lumi-butter);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ── Título ── */
+.titulo {
+  margin: 0;
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--lumi-text-dark);
+  text-align: center;
+}
+
+.subtitulo {
+  margin: -12px 0 0;
+  font-size: 15px;
+  color: var(--lumi-text);
+  text-align: center;
+}
+
+/* ── Puntaje ── */
+.puntajeBox {
+  width: 100%;
+  background: var(--lumi-gray);
+  border-radius: var(--radius);
+  padding: 24px 20px 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.puntajeNum {
+  font-size: 64px;
+  font-weight: 700;
+  color: var(--lumi-text-dark);
+  line-height: 1;
+}
+
+.puntajeLabel {
+  font-size: 14px;
+  color: var(--lumi-text);
+  font-weight: var(--font-weight-normal);
+}
+
+/* ── Estrellas ── */
+.estrellasRow {
+  display: flex;
+  gap: 10px;
+}
+
+.estrella {
+  font-size: 40px;
+  transition: transform 0.2s;
+}
+
+.estrellaActiva {
+  color: #F5B942;
+}
+
+.estrellaVacia {
+  color: var(--lumi-gray);
+}
+
+/* ── Palabras para practicar ── */
+.practicarBox {
+  width: 100%;
+  background: var(--lumi-gray);
+  border-radius: var(--radius);
+  padding: 16px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.practicarLabel {
+  margin: 0;
+  font-size: 14px;
+  font-weight: var(--font-weight-medium);
+  color: var(--lumi-text-dark);
+}
+
+.practicarTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.tag {
+  background: var(--lumi-peach);
+  color: var(--lumi-text-dark);
+  font-size: 14px;
+  font-weight: var(--font-weight-medium);
+  padding: 6px 14px;
+  border-radius: 999px;
+}
+
+/* ── Botones ── */
+.botonesRow {
+  display: flex;
+  gap: 12px;
+  width: 100%;
+  margin-top: 4px;
+}
+
+.btnReintentar,
+.btnVolver {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 16px;
+  border-radius: var(--radius);
+  border: none;
+  font-size: 15px;
+  font-weight: var(--font-weight-medium);
+  cursor: pointer;
+  font-family: "Fredoka", sans-serif;
+  transition: transform 0.15s, opacity 0.15s;
+  color: var(--lumi-text-dark);
+}
+
+.btnReintentar {
+  background: var(--lumi-sky);
+}
+
+.btnVolver {
+  background: var(--lumi-mint);
+}
+
+.btnReintentar:hover,
+.btnVolver:hover {
+  opacity: 0.88;
+  transform: scale(1.02);
+}
+
+.btnReintentar:active,
+.btnVolver:active {
+  transform: scale(0.98);
+}
