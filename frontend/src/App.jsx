@@ -2,6 +2,7 @@
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import InicioScreen from "./screens/inicioScreen";
 import NivelScreen from "./screens/Niveles/nivelScreen";
+import LecturaScreen from "./screens/Niveles/lecturaScreen";
 import "./App.css";
 
 function App() {
@@ -11,10 +12,7 @@ function App() {
         <Route path="/" element={<Navigate to="/inicio" replace />} />
         <Route path="/inicio" element={<InicioScreen />} />
         <Route path="/niveles" element={<NivelScreen />} />
-        {/* rutas pendientes — las implementa el equipo */}
-        {/* <Route path="/basico" element={<BasicoScreen />} /> */}
-        {/* <Route path="/intermedio" element={<IntermedioScreen />} /> */}
-        {/* <Route path="/avanzado" element={<AvanzadoScreen />} /> */}
+        <Route path="/lectura/:nivel" element={<LecturaScreen />} />
         <Route path="*" element={<Navigate to="/inicio" replace />} />
       </Routes>
     </BrowserRouter>

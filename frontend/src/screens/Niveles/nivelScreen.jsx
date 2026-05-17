@@ -11,7 +11,7 @@ const LEVELS = [
     description: "Palabras simples y frases cortas",
     Icon: Sprout,
     bubbleClass: styles.bubbleMint,
-    route: "/basico",
+    route: "/lectura/basico",
   },
   {
     key: "intermedio",
@@ -19,7 +19,7 @@ const LEVELS = [
     description: "Textos más largos con palabras nuevas",
     Icon: Leaf,
     bubbleClass: styles.bubbleSky,
-    route: "/intermedio",
+    route: "/lectura/intermedio",
   },
   {
     key: "avanzado",
@@ -27,7 +27,7 @@ const LEVELS = [
     description: "Historias completas y vocabulario amplio",
     Icon: Bell,
     bubbleClass: styles.bubbleButter,
-    route: "/avanzado",
+    route: "/lectura/avanzado",
   },
 ];
 
