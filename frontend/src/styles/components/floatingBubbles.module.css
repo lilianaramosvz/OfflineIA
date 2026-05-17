@@ -1,0 +1,7 @@
+/*frontend\src\styles\components\floatingBubbles.module.css*/
+
+.bubble {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+}
